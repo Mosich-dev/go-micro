@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
@@ -17,8 +16,7 @@ var handlerOptions = cors.Options{
 	MaxAge:           300,
 }
 
-func (app *Config) Routes() http.Handler {
-	fmt.Println("inja3")
+func (app Config) Routes() http.Handler {
 	mux := chi.NewRouter()
 	mux.Use(
 		cors.Handler(handlerOptions),
