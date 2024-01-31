@@ -12,3 +12,18 @@ services:
     deploy:
       mode: replicated
       replicas: 1
+
+  postgres:
+    image: 'postgres:16.1'
+    ports:
+      - "5432:5432"
+    restart: always
+    deploy:
+      mode: replicated
+      replicas: 1
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: users
+    volumes:
+      - ./db-data/postgres/:/var/postgresql/data/

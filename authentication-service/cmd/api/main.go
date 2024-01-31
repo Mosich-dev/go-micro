@@ -6,9 +6,18 @@ import (
 	"github.com/Mosich-dev/go-micro/authentication-service/data"
 	"log"
 	"net/http"
+	"os"
+	"time"
+
+	_ "github.com/jackc/pgconn"
+	_ "github.com/jackc/pgx/v4"
+	_ "github.com/jackc/pgx/v4/stdlib"
 )
 
 const port = "80"
+const connCheckTime = 2
+
+var count int64
 
 type Config struct {
 	DB     *sql.DB
@@ -17,6 +26,11 @@ type Config struct {
 
 func main() {
 	log.Println("Starting the Authentication service.")
+
+	conn := connectToDB()
+	if conn == nil {
+		log.Panic("database connection failed.")
+	}
 
 	app := Config{}
 
@@ -28,5 +42,40 @@ func main() {
 	err := srv.ListenAndServe()
 	if err != nil {
 		log.Panic(err)
+	}
+}
+
+func openDB(dsn string) (*sql.DB, error) {
+	db, err := sql.Open("pgx", dsn)
+	if err != nil {
+		return nil, err
+	}
+
+	err = db.Ping()
+	if err != nil {
+		return nil, err
+	}
+	return db, nil
+}
+
+func connectToDB() *sql.DB {
+	dsn := os.Getenv("DSN")
+	for {
+		connection, err := openDB(dsn)
+		if err != nil {
+			log.Println("database not ready yet...")
+			count++
+		} else {
+			log.Printf("Connected to Database at: %s\n", dsn)
+			return connection
+		}
+
+		if count > 10 {
+			log.Println(err)
+			return nil
+		}
+		log.Printf("Checking the database connection every %d second(s)...", connCheckTime)
+		time.Sleep(connCheckTime * time.Second)
+		continue
 	}
 }
