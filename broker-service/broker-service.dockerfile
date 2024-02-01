@@ -4,4 +4,4 @@ RUN mkdir /app
 COPY brokerApp /app
 CMD [ "/app/brokerApp" ]
 
-LABEL authors="MosicH"
+LABEL authors="Mosich-dev"
