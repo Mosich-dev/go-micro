@@ -4,14 +4,13 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/Mosich-dev/go-micro/authentication-service/data"
+	_ "github.com/jackc/pgconn"
+	_ "github.com/jackc/pgx/v4"
+	_ "github.com/jackc/pgx/v4/stdlib"
 	"log"
 	"net/http"
 	"os"
 	"time"
-
-	_ "github.com/jackc/pgconn"
-	_ "github.com/jackc/pgx/v4"
-	_ "github.com/jackc/pgx/v4/stdlib"
 )
 
 const port = "80"
