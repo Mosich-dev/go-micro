@@ -15,6 +15,7 @@ import (
 
 const port = "80"
 const connCheckTime = 2
+const maxDBStartWaitTime = 40
 
 var count int64
 
@@ -69,7 +70,7 @@ func connectToDB() *sql.DB {
 			return connection
 		}
 
-		if count > 10 {
+		if count > maxDBStartWaitTime {
 			log.Println(err)
 			return nil
 		}

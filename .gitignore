@@ -139,3 +139,4 @@ fabric.properties
 
 .DS_store
 broker-service/brokerApp
+authentication-service/authApp
