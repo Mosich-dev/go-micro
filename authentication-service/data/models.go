@@ -111,7 +111,7 @@ func (u *User) GetByEmail(email string) (*User, error) {
 }
 
 // GetOne returns one user by id
-func (u *User) GetOne(id int) (*User, error) {
+func GetOne(id int) (*User, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
 	defer cancel()
 
@@ -200,7 +200,7 @@ func (u *User) DeleteByID(id int) error {
 }
 
 // Insert inserts a new user into the database, and returns the ID of the newly inserted row
-func (u *User) Insert(user User) (int, error) {
+func (user *User) Insert() (int, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
 	defer cancel()
 
