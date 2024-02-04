@@ -137,6 +137,8 @@ fabric.properties
 ./broker-service/brokerApp
 ./bin
 
-.DS_store
+**.DS_store
 broker-service/brokerApp
 authentication-service/authApp
+front-end/.DS_Store
+front-end/cmd/.DS_Store
