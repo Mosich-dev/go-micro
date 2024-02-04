@@ -16,14 +16,14 @@ var handlerOptions = cors.Options{
 	MaxAge:           300,
 }
 
-func (app Config) Routes() http.Handler {
+func Routes() http.Handler {
 	mux := chi.NewRouter()
 	mux.Use(
 		cors.Handler(handlerOptions),
 		middleware.Heartbeat("/ping"),
 	)
 
-	mux.Post("/", app.Broker)
+	mux.Post("/", Broker)
 
 	return mux
 }

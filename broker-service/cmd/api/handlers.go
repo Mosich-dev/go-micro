@@ -1,16 +1,17 @@
 package main
 
 import (
+	"github.com/Mosich-dev/JSONProc"
 	"log"
 	"net/http"
 )
 
-func (app Config) Broker(w http.ResponseWriter, r *http.Request) {
-	payload := jsonResponse{
+func Broker(w http.ResponseWriter, r *http.Request) {
+	payload := JSONProc.JsonResponse{
 		Error:   false,
 		Message: "Hit",
 	}
-	err := app.writeJSON(w, http.StatusOK, payload)
+	err := JSONProc.WriteJSON(w, http.StatusOK, payload)
 	if err != nil {
 		log.Fatalf("Broker Failed:\n%v", err)
 	}

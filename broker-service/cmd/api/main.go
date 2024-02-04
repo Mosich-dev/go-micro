@@ -8,16 +8,12 @@ import (
 
 const port = "80"
 
-type Config struct{}
-
 func main() {
-	app := Config{}
-
-	log.Printf("Starting the Broker Service on Port %s", port)
+	log.Printf("Starting the Broker Service on Port :%s", port)
 
 	srv := &http.Server{
 		Addr:    fmt.Sprintf(":%s", port),
-		Handler: app.Routes(),
+		Handler: Routes(),
 	}
 
 	err := srv.ListenAndServe()

@@ -1,3 +1,15 @@
+github.com/Mosich-dev/JSONProc v0.2.0 h1:YXIg3+upmvW3B1U9Bb95p+mCCO/IqUhMjw4dIxNiUHk=
+github.com/Mosich-dev/JSONProc v0.2.0/go.mod h1:ktJHCI2cuYxoZxothniaDxpwW/nQBDLIlwiEit1isGo=
+github.com/Mosich-dev/JSONProc v0.2.1 h1:qfi0kO2pz4MTybzKSDE92xzYVW9C1gK7PfG4h8aeXTI=
+github.com/Mosich-dev/JSONProc v0.2.1/go.mod h1:ktJHCI2cuYxoZxothniaDxpwW/nQBDLIlwiEit1isGo=
+github.com/Mosich-dev/JSONProc v0.2.2 h1:X6awI/566tirNCbTm5F06DZHWHn8CnnMBPHY6i+BY/s=
+github.com/Mosich-dev/JSONProc v0.2.2/go.mod h1:ktJHCI2cuYxoZxothniaDxpwW/nQBDLIlwiEit1isGo=
+github.com/Mosich-dev/JSONProc v0.2.3-0.20240204144437-798cc3dd5581 h1:jwQFYU0PDQHebhHca/M7E8mU6PkP7RhIie4tEsxaEM0=
+github.com/Mosich-dev/JSONProc v0.2.3-0.20240204144437-798cc3dd5581/go.mod h1:ktJHCI2cuYxoZxothniaDxpwW/nQBDLIlwiEit1isGo=
+github.com/Mosich-dev/JSONProc v0.2.3-0.20240204144637-5512a3074012 h1:lM/B6uBVLeSDocVq8d3J8ZSR5re2yXSBpK9m7af2WUk=
+github.com/Mosich-dev/JSONProc v0.2.3-0.20240204144637-5512a3074012/go.mod h1:ktJHCI2cuYxoZxothniaDxpwW/nQBDLIlwiEit1isGo=
+github.com/Mosich-dev/JSONProc v0.2.3-0.20240204144815-e28e2c998719 h1:1FBi+SOxfcaD/TgvCLInMsIE9rWsR8Bcj/5wcycyJEE=
+github.com/Mosich-dev/JSONProc v0.2.3-0.20240204144815-e28e2c998719/go.mod h1:ktJHCI2cuYxoZxothniaDxpwW/nQBDLIlwiEit1isGo=
 github.com/go-chi/chi/v5 v5.0.11 h1:BnpYbFZ3T3S1WMpD79r7R5ThWX40TaFB7L31Y8xqSwA=
 github.com/go-chi/chi/v5 v5.0.11/go.mod h1:DslCQbL2OYiznFReuXYUmQ2hGd1aDpCnlMNITLSKoi8=
 github.com/go-chi/cors v1.2.1 h1:xEC8UT3Rlp2QuWNEr4Fs/c2EAGVKBwy/1vHx3bppil4=
