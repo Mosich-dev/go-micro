@@ -10,6 +10,8 @@ github.com/Mosich-dev/JSONProc v0.2.3-0.20240204144637-5512a3074012 h1:lM/B6uBVL
 github.com/Mosich-dev/JSONProc v0.2.3-0.20240204144637-5512a3074012/go.mod h1:ktJHCI2cuYxoZxothniaDxpwW/nQBDLIlwiEit1isGo=
 github.com/Mosich-dev/JSONProc v0.2.3-0.20240204144815-e28e2c998719 h1:1FBi+SOxfcaD/TgvCLInMsIE9rWsR8Bcj/5wcycyJEE=
 github.com/Mosich-dev/JSONProc v0.2.3-0.20240204144815-e28e2c998719/go.mod h1:ktJHCI2cuYxoZxothniaDxpwW/nQBDLIlwiEit1isGo=
+github.com/Mosich-dev/JSONProc v0.2.3-0.20240204203355-148e1837e7c3 h1:H/KUN5DKW9t7huQp6B68a6mZZBY0zLNCnk0TRmoKi9E=
+github.com/Mosich-dev/JSONProc v0.2.3-0.20240204203355-148e1837e7c3/go.mod h1:ktJHCI2cuYxoZxothniaDxpwW/nQBDLIlwiEit1isGo=
 github.com/go-chi/chi/v5 v5.0.11 h1:BnpYbFZ3T3S1WMpD79r7R5ThWX40TaFB7L31Y8xqSwA=
 github.com/go-chi/chi/v5 v5.0.11/go.mod h1:DslCQbL2OYiznFReuXYUmQ2hGd1aDpCnlMNITLSKoi8=
 github.com/go-chi/cors v1.2.1 h1:xEC8UT3Rlp2QuWNEr4Fs/c2EAGVKBwy/1vHx3bppil4=

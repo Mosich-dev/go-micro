@@ -7,4 +7,4 @@ require (
 	github.com/go-chi/cors v1.2.1
 )
 
-require github.com/Mosich-dev/JSONProc v0.2.3-0.20240204144815-e28e2c998719 // indirect
+require github.com/Mosich-dev/JSONProc v0.2.3-0.20240204203355-148e1837e7c3 // indirect

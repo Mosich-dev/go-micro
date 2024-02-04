@@ -9,6 +9,7 @@ require (
 )
 
 require (
+	github.com/Mosich-dev/JSONProc v0.2.3-0.20240204203355-148e1837e7c3 // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
 	github.com/jackc/pgconn v1.14.1 // indirect
 	github.com/jackc/pgio v1.0.0 // indirect
