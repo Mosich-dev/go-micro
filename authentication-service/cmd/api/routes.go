@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func (app *Config) routes() http.Handler {
+func Routes() http.Handler {
 	mux := chi.NewRouter()
 	mux.Use(
 		cors.Handler(

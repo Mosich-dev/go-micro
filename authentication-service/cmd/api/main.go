@@ -32,11 +32,9 @@ func main() {
 		log.Panic("database connection failed.")
 	}
 
-	app := Config{}
-
 	srv := &http.Server{
 		Addr:    fmt.Sprintf(":%s", port),
-		Handler: app.routes(),
+		Handler: Routes(),
 	}
 
 	err := srv.ListenAndServe()

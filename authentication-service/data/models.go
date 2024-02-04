@@ -44,7 +44,7 @@ type User struct {
 }
 
 // GetAll returns a slice of all users, sorted by last name
-func (u *User) GetAll() ([]*User, error) {
+func GetAll() ([]*User, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
 	defer cancel()
 
@@ -83,7 +83,7 @@ func (u *User) GetAll() ([]*User, error) {
 }
 
 // GetByEmail returns one user by email
-func (u *User) GetByEmail(email string) (*User, error) {
+func GetByEmail(email string) (*User, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
 	defer cancel()
 
@@ -185,7 +185,7 @@ func (u *User) Delete() error {
 }
 
 // DeleteByID deletes one user from the database, by ID
-func (u *User) DeleteByID(id int) error {
+func DeleteByID(id int) error {
 	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
 	defer cancel()
 
@@ -200,11 +200,11 @@ func (u *User) DeleteByID(id int) error {
 }
 
 // Insert inserts a new user into the database, and returns the ID of the newly inserted row
-func (user *User) Insert() (int, error) {
+func (u *User) Insert() (int, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
 	defer cancel()
 
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), 12)
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(u.Password), 12)
 	if err != nil {
 		return 0, err
 	}
@@ -214,11 +214,11 @@ func (user *User) Insert() (int, error) {
 		values ($1, $2, $3, $4, $5, $6, $7) returning id`
 
 	err = db.QueryRowContext(ctx, stmt,
-		user.Email,
-		user.FirstName,
-		user.LastName,
+		u.Email,
+		u.FirstName,
+		u.LastName,
 		hashedPassword,
-		user.Active,
+		u.Active,
 		time.Now(),
 		time.Now(),
 	).Scan(&newID)
