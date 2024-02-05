@@ -24,6 +24,7 @@ func Routes() http.Handler {
 	)
 
 	mux.Post("/", Broker)
+	mux.Post("/handle", HandleSubmission)
 
 	return mux
 }
