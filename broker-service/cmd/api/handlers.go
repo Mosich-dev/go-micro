@@ -59,13 +59,6 @@ func authenticate(w http.ResponseWriter, a types.AuthPayload) {
 		return
 	}
 
-	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			JSONProc.ErrorJSON(w, err)
-		}
-	}(res.Body)
-
 	if res.StatusCode == http.StatusUnauthorized {
 		JSONProc.ErrorJSON(w, errors.New("invalid credentials")) // maybe return code 401 (Unauthorized)
 		return
@@ -93,4 +86,11 @@ func authenticate(w http.ResponseWriter, a types.AuthPayload) {
 		JSONProc.ErrorJSON(w, err)
 		return
 	}
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			log.Println(err)
+			JSONProc.ErrorJSON(w, err)
+		}
+	}(res.Body)
 }

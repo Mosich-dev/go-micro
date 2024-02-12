@@ -4,18 +4,15 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"golang.org/x/crypto/bcrypt"
 	"log"
 	"time"
-
-	"golang.org/x/crypto/bcrypt"
 )
 
 const dbTimeout = time.Second * 3
 
 var db *sql.DB
 
-// New is the function used to create an instance of the data package. It returns the type
-// Model, which embeds all the types we want to be available to our application.
 func New(dbPool *sql.DB) Models {
 	db = dbPool
 
@@ -48,8 +45,8 @@ func GetAll() ([]*User, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
 	defer cancel()
 
-	query := `select id, email, first_name, last_name, password, user_active, created_at, updated_at
-	from users order by last_name`
+	query := `SELECT id, email, first_name, last_name, password, user_active, created_at, updated_at
+	FROM users ORDER BY last_name`
 
 	rows, err := db.QueryContext(ctx, query)
 	if err != nil {
@@ -72,7 +69,7 @@ func GetAll() ([]*User, error) {
 			&user.UpdatedAt,
 		)
 		if err != nil {
-			log.Println("Error scanning", err)
+			log.Println("Error scanning:", err)
 			return nil, err
 		}
 
@@ -83,11 +80,10 @@ func GetAll() ([]*User, error) {
 }
 
 // GetByEmail returns one user by email
-func GetByEmail(email string) (*User, error) {
+func (u *User) GetByEmail(email string) (*User, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
 	defer cancel()
-
-	query := `select id, email, first_name, last_name, password, user_active, created_at, updated_at from users where email = $1`
+	query := `SELECT id, email, first_name, last_name, password, user_active, created_at, updated_at FROM public.users WHERE email = $1`
 
 	var user User
 	row := db.QueryRowContext(ctx, query, email)
@@ -104,9 +100,13 @@ func GetByEmail(email string) (*User, error) {
 	)
 
 	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			log.Println("no rows")
+			return nil, err
+		}
+		log.Println(err.Error())
 		return nil, err
 	}
-
 	return &user, nil
 }
 
@@ -115,7 +115,7 @@ func GetOne(id int) (*User, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
 	defer cancel()
 
-	query := `select id, email, first_name, last_name, password, user_active, created_at, updated_at from users where id = $1`
+	query := `SELECT id, email, first_name, last_name, password, user_active, created_at, updated_at FROM users WHERE id = $1`
 
 	var user User
 	row := db.QueryRowContext(ctx, query, id)
@@ -144,13 +144,13 @@ func (u *User) Update() error {
 	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
 	defer cancel()
 
-	stmt := `update users set
+	stmt := `UPDATE users SET
 		email = $1,
 		first_name = $2,
 		last_name = $3,
 		user_active = $4,
 		updated_at = $5
-		where id = $6
+		WHERE id = $6
 	`
 
 	_, err := db.ExecContext(ctx, stmt,
@@ -174,7 +174,7 @@ func (u *User) Delete() error {
 	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
 	defer cancel()
 
-	stmt := `delete from users where id = $1`
+	stmt := `DELETE FROM users WHERE id = $1`
 
 	_, err := db.ExecContext(ctx, stmt, u.ID)
 	if err != nil {
@@ -189,7 +189,7 @@ func DeleteByID(id int) error {
 	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
 	defer cancel()
 
-	stmt := `delete from users where id = $1`
+	stmt := `DELETE FROM users WHERE id = $1`
 
 	_, err := db.ExecContext(ctx, stmt, id)
 	if err != nil {
@@ -210,8 +210,8 @@ func (u *User) Insert() (int, error) {
 	}
 
 	var newID int
-	stmt := `insert into users (email, first_name, last_name, password, user_active, created_at, updated_at)
-		values ($1, $2, $3, $4, $5, $6, $7) returning id`
+	stmt := `INSERT INTO users (email, first_name, last_name, password, user_active, created_at, updated_at)
+		VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id`
 
 	err = db.QueryRowContext(ctx, stmt,
 		u.Email,
@@ -240,7 +240,7 @@ func (u *User) ResetPassword(password string) error {
 		return err
 	}
 
-	stmt := `update users set password = $1 where id = $2`
+	stmt := `UPDATE users SET password = $1 WHERE id = $2`
 	_, err = db.ExecContext(ctx, stmt, hashedPassword, u.ID)
 	if err != nil {
 		return err

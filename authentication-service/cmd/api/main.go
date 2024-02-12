@@ -14,8 +14,8 @@ import (
 )
 
 const port = "80"
-const connCheckTime = 2
-const maxDBStartWaitTime = 40
+const connCheckTime = 4
+const maxDBStartWaitTime = 45
 
 var count int64
 
@@ -32,9 +32,14 @@ func main() {
 		log.Panic("database connection failed.")
 	}
 
+	app := Config{
+		DB:     conn,
+		Models: data.New(conn),
+	}
+
 	srv := &http.Server{
 		Addr:    fmt.Sprintf(":%s", port),
-		Handler: Routes(),
+		Handler: app.Routes(),
 	}
 
 	err := srv.ListenAndServe()
@@ -76,4 +81,5 @@ func connectToDB() *sql.DB {
 		time.Sleep(connCheckTime * time.Second)
 		continue
 	}
+
 }

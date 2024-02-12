@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func Routes() http.Handler {
+func (app *Config) Routes() http.Handler {
 	mux := chi.NewRouter()
 	mux.Use(
 		cors.Handler(
@@ -20,6 +20,6 @@ func Routes() http.Handler {
 				MaxAge:           300,
 			}))
 	mux.Use(middleware.Heartbeat("/ping"))
-	mux.Post("/authenticate", Authenticate)
+	mux.Post("/authenticate", app.Authenticate)
 	return mux
 }

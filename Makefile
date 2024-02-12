@@ -13,6 +13,8 @@ up:
 up_build: build_broker build_auth
 	@echo "Stopping docker images (if running...)"
 	docker-compose down
+	@echo "Stopping 'winnat' so it wouldn't interfere with postgres"
+	@net stop winnat
 	@echo "Building (when required) and starting docker images..."
 	docker-compose up --build -d
 	@echo "Docker images built and started!"
@@ -21,6 +23,8 @@ up_build: build_broker build_auth
 down:
 	@echo "Stopping docker compose..."
 	docker-compose down
+	@echo "restarting 'winnat'."
+	@net start winnat
 	@echo "Done!"
 
 ## build_broker: builds the broker binary as a linux executable
@@ -51,3 +55,7 @@ stop:
 	@echo "Stopping front end..."
 	@taskkill /IM "${FRONT_END_BINARY}" /F
 	@echo "Stopped front end!"
+
+run: up_build start
+
+end: down stop

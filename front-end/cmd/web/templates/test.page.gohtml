@@ -7,6 +7,7 @@
                 <h1 class="mt-5">Test microservices</h1>
                 <hr>
                 <a id="brokerTestBtn" href="javascript:void(0);" class="btn btn-outline-secondary">Test Broker</a>
+                <a id="authBrokerTestBtn" href="javascript:void(0);" class="btn btn-outline-secondary">Test Auth</a>
 
                 <div id="output" class="mt-5" style="outline: 1px solid silver; padding: 2em;">
                     <span class="text-muted">Output shows here...</span>
@@ -33,9 +34,46 @@
 {{define "js"}}
     <script>
         let brokerTestBtn = document.getElementById("brokerTestBtn");
+        let authBrokerTestBtn = document.getElementById("authBrokerTestBtn");
         let output = document.getElementById("output");
         let sent = document.getElementById("payload");
         let received = document.getElementById("received");
+
+        authBrokerTestBtn.addEventListener("click", () => {
+            const payload = {
+                action: "auth",
+                auth: {
+                    email: "admin@example.com",
+                    password: "verysecret",
+                }
+            }
+
+            const headers = new Headers();
+            headers.append("Content-Type", "application/json");
+
+            const body = {
+                method: "POST",
+                body: JSON.stringify(payload),
+                headers: headers,
+            }
+
+            fetch("http:\/\/localhost:8080/handle", body)
+                .then((res) => res.json())
+                .then((data) => {
+                    sent.innerHTML = JSON.stringify(payload, undefined, 4);
+                    received.innerHTML = JSON.stringify(data, undefined, 4);
+
+                    if(data.error) {
+                        console.log(data.message)
+                        output.innerHTML += `<br><strong>Error</strong>: ${data.message}`;
+                    } else {
+                        output.innerHTML += `<br><strong>Response from Authentication Service</strong>: ${data.message}`;
+                    }
+                })
+                .catch((err) => {
+                    output.innerHTML += `<br><br>Error: ${err}`;
+                })
+        })
 
         brokerTestBtn.addEventListener("click", () => {
             const body = {
@@ -51,7 +89,7 @@
                     if(data.error) {
                         console.log(data.message)
                     } else {
-                        output += `<br><strong>Response from Broker Service</strong>: ${data.message}`;
+                        output.innerHTML += `<br><strong>Response from Broker Service</strong>: ${data.message}`;
                     }
                 })
                 .catch((err) => {
