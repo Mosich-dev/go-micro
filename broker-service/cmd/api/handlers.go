@@ -11,7 +11,7 @@ import (
 	"net/http"
 )
 
-func Broker(w http.ResponseWriter, r *http.Request) {
+func (app *Config) broker(w http.ResponseWriter, r *http.Request) {
 	payload := JSONProc.JsonResponse{
 		Error:   false,
 		Message: "Hit",
@@ -22,7 +22,7 @@ func Broker(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func HandleSubmission(w http.ResponseWriter, r *http.Request) {
+func (app *Config) handleSubmission(w http.ResponseWriter, r *http.Request) {
 	var reqPayload types.RequestPayload
 
 	err := JSONProc.ReadJSON(w, r, &reqPayload)
@@ -33,16 +33,65 @@ func HandleSubmission(w http.ResponseWriter, r *http.Request) {
 
 	switch reqPayload.Action {
 	case "auth":
-		authenticate(w, reqPayload.Auth)
+		app.authenticate(w, reqPayload.Auth)
+	case "log":
+		app.logItem(w, reqPayload.Log)
 	default:
 		JSONProc.ErrorJSON(w, errors.New("unknown action"))
 	}
 }
 
-func authenticate(w http.ResponseWriter, a types.AuthPayload) {
+func (app *Config) logItem(w http.ResponseWriter, entry types.LoggerPayload) {
+	jsonLogEntry, err := json.MarshalIndent(entry, "", "\t")
+	if err != nil {
+		log.Println("logItem marshal failed. error:", err)
+		return
+	}
+	logServiceURL := "http://logger-service/log"
+	req, err := http.NewRequest("POST", logServiceURL, bytes.NewBuffer(jsonLogEntry))
+	if err != nil {
+		log.Println("logItem request failed. error:", err)
+		JSONProc.ErrorJSON(w, err)
+		return
+	}
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+
+	res, err := client.Do(req)
+	if err != nil {
+		log.Println("logItem client failed. error:", err)
+		JSONProc.ErrorJSON(w, err)
+		return
+	}
+
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			log.Println("logItem client failed. error:", err)
+			return
+		}
+	}(res.Body)
+
+	if res.StatusCode != http.StatusAccepted {
+		JSONProc.ErrorJSON(w, errors.New("unexpected response from client"), http.StatusNotFound)
+		return
+	}
+
+	var payload JSONProc.JsonResponse
+	payload.Message = "Logged"
+	payload.Error = false
+
+	err = JSONProc.WriteJSON(w, http.StatusAccepted, payload)
+	if err != nil {
+		return
+	}
+}
+
+func (app *Config) authenticate(w http.ResponseWriter, a types.AuthPayload) {
 	data, err := json.MarshalIndent(a, "", "\t")
 	if err != nil {
-		log.Println(err)
+		log.Println("authenticate failed. error:", err)
 		return
 	}
 
