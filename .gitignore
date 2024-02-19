@@ -138,7 +138,12 @@ fabric.properties
 ./bin
 
 **.DS_store
+# broker service
 broker-service/brokerApp
+
+# authentication service
 authentication-service/authApp
-front-end/.DS_Store
-front-end/cmd/.DS_Store
+
+# logger service
+logger-service/loggerApp
+logger-service/db-data

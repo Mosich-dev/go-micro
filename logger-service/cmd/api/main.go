@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	webPort            = "80"
+	webPort            = "82"
 	dbName             = "logs"
 	mongoURI           = "mongodb://localhost:27017"
 	mongoConnectTimout = time.Second * 45
@@ -49,7 +49,7 @@ func main() {
 	}
 	err = srv.ListenAndServe()
 	if err != nil {
-		log.Panic("Failed to Listen and Serve.")
+		log.Panic("Failed to Listen and Serve. Error:", err)
 	}
 }
 
