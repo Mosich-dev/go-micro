@@ -5,7 +5,13 @@ type AuthPayload struct {
 	Password string `json:"password"`
 }
 
+type LoggerPayload struct {
+	Name string `json:"name"`
+	Data string `json:"data"`
+}
+
 type RequestPayload struct {
-	Action string      `json:"action"`
-	Auth   AuthPayload `json:"auth,omitempty"`
+	Action string        `json:"action"`
+	Auth   AuthPayload   `json:"auth,omitempty"`
+	Log    LoggerPayload `json:"log"`
 }
